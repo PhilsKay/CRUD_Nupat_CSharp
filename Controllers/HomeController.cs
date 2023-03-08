@@ -11,6 +11,7 @@ namespace Nupat_CSharp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IJobService _jobService;
 
+
         public HomeController(ILogger<HomeController> logger,IJobService jobService)
         {
             _logger = logger;

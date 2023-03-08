@@ -10,5 +10,6 @@ namespace Nupat_CSharp.Data
 
         }
         public DbSet<Job> Job { get; set; }
+        public DbSet<Languages> Languages { get; set; }
     }
 }

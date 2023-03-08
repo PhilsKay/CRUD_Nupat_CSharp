@@ -10,7 +10,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IJobService,JobService>(); 
+builder.Services.AddScoped<IJobService,JobService>();
+builder.Services.AddScoped<ILanguageService, LanguagesServices>();
+
+
 
 
 
