@@ -10,20 +10,36 @@ namespace Nupat_CSharp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IJobService _jobService;
+        private readonly ITest _test;
 
 
-        public HomeController(ILogger<HomeController> logger,IJobService jobService)
+        public HomeController(ILogger<HomeController> logger,IJobService jobService, ITest test)
         {
             _logger = logger;
-            _jobService = jobService;   
+            _jobService = jobService; 
+            _test = test;
         }
+
+        
 
         public async Task<IActionResult> Index()
         {
             var jobs = await _jobService.GetJobs();   
             return View(jobs);
         }
-
+        public IActionResult Test()
+        {
+            int value1 = _test.RandomNumber();
+            int value2 = _test.RandomNumber();
+            int value3 = _test.RandomNumber();
+            TestViewModel test = new TestViewModel()
+            {
+                value_1 = value1,
+                value_2 = value2,
+                value_3 = value3
+            };
+            return View(test);
+        }
         public IActionResult Add()
         {
             return View();

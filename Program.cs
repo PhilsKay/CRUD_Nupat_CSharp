@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Nupat_CSharp.Data;
 using Nupat_CSharp.Service;
+using Microsoft.AspNetCore.Identity;
+using Nupat_CSharp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(
     builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<DataContext>();
+
+
+
 builder.Services.AddScoped<IJobService,JobService>();
 builder.Services.AddScoped<ILanguageService, LanguagesServices>();
+
+builder.Services.AddSingleton<ITest, Test>();
 
 
 
@@ -30,8 +39,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.MapRazorPages();
 
 app.UseRouting();
+app.UseAuthentication();;
 
 app.UseAuthorization();
 
