@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Nupat_CSharp.Models;
 using Nupat_CSharp.Service;
+using Nupat_CSharp.Utility;
 using Nupat_CSharp.ViewModel;
 using System.Diagnostics;
 
@@ -20,8 +22,8 @@ namespace Nupat_CSharp.Controllers
             _test = test;
         }
 
-        
 
+        [Authorize]
         public async Task<IActionResult> Index()
         {
             var jobs = await _jobService.GetJobs();   
@@ -40,10 +42,13 @@ namespace Nupat_CSharp.Controllers
             };
             return View(test);
         }
+        [Authorize(Roles ="Admin")]
         public IActionResult Add()
         {
             return View();
         }
+
+        [Authorize(Roles = "Admin")]
 
 
         public async Task<IActionResult> AddJob(JobViewModel obj)
@@ -57,6 +62,9 @@ namespace Nupat_CSharp.Controllers
             return View("Add",obj);
         }
 
+        [Authorize(Roles = "Admin")]
+
+
         // Go to delete page 
         public async Task<IActionResult> Delete(Guid Id)
         {
@@ -65,12 +73,17 @@ namespace Nupat_CSharp.Controllers
             return View(result);
         }
 
+        [Authorize(Roles = "Admin")]
+
+
         // Delete the Job
         public async Task<IActionResult> DeleteJob(Job job)
         {
             await _jobService.DeleteJob(job);
             return RedirectToAction("Index");
         }
+        [Authorize(Roles = "Admin")]
+
 
         public async Task<IActionResult> Edit(Guid Id)
         {
@@ -78,6 +91,8 @@ namespace Nupat_CSharp.Controllers
 
             return View(result);
         }
+        [Authorize(Roles = "Admin")]
+
 
         // Edit the Job
         public async Task<IActionResult> EditJob(Job job)
