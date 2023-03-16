@@ -19,7 +19,7 @@ builder.Services.AddIdentity<ApplicationUser,IdentityRole>(options =>
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.SignIn.RequireConfirmedEmail = false;
 })
-    .AddEntityFrameworkStores<DataContext>().AddDefaultUI();
+    .AddEntityFrameworkStores<DataContext>().AddDefaultUI().AddDefaultTokenProviders();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -47,6 +47,7 @@ builder.Services.AddScoped<IJobService,JobService>();
 builder.Services.AddScoped<ILanguageService, LanguagesServices>();
 
 builder.Services.AddSingleton<ITest, Test>();
+builder.Services.AddScoped<IRolesService, RolesService>();
 
 
 
