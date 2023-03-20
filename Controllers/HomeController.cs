@@ -82,6 +82,7 @@ namespace Nupat_CSharp.Controllers
             await _jobService.DeleteJob(job);
             return RedirectToAction("Index");
         }
+
         [Authorize(Roles = "Admin")]
 
 

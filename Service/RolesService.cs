@@ -22,8 +22,32 @@ namespace Nupat_CSharp.Service
         /// <returns></returns>
         public async Task<string> AddUserToRole(string user, string roleName)
         {
+            var find = await _userManager.FindByNameAsync(user);    
+            if (find != null) {
+                var checkRole = await _roleManager.RoleExistsAsync(roleName);
+                if (checkRole == true)
+                {
+                    var checkUser = await _userManager.IsInRoleAsync(find, roleName);
+                    if (checkUser == false) {
+                        var result = await _userManager.AddToRoleAsync(find, roleName);
+                        if (result.Succeeded)
+                        {
+                            return string.Empty;
+                        }
+                        else
+                        {
+                            return result.Errors.First().Description;
+                        }
+                    }
 
-            return string.Empty;
+                return $"User already in {roleName}";
+
+                }
+                return "Role not Exist";
+
+            }
+            return "User not found";
+          
         }
 
         public async Task<string> CreateRole(string roleName)
